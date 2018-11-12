@@ -1,0 +1,148 @@
+<html>
+<style>
+.openDoor {
+    display: block;
+    width: 100%;
+    height: 20%;
+    border: none;
+    background-color: #Ff8000;
+    color: white;
+    padding: 14px 28px;
+    font-size: 80px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.openDoor:hover {
+    background-color: #ddd;
+    color: black;
+}
+</style>
+<style>
+.stopDoor {
+    display: block;
+    width: 100%;
+    height: 20%;
+    border: none;
+    background-color: #F00000;
+    color: white;
+    padding: 14px 28px;
+    font-size: 80px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.stopDoor:hover {
+    background-color: #ddd;
+    color: black;
+}
+</style>
+<style>
+.showMessage{
+    display: block;
+    width: 100%;
+    height: 10%;
+    border: none;
+    background-color: #505050;
+    color: white;
+    padding: 14px 28px;
+    font-size: 50px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.showMessage:hover {
+    background-color: #ddd;
+    color: black;
+}
+</style>
+<body>
+	<button onclick="funOpenDoor()" width="80%" class="openDoor"><<<<開門>>>></button>
+	<button onclick="funStopDoor()" class="stopDoor">暫......停</button>
+	<button onclick="funCloseDoor()" class="openDoor">>>>>關門<<<<</button>
+    <button id="arduinoEcho" class="showMessage">Arduino echo</button>
+    <button id="arduinoSwitchStatus" class="showMessage">Arduino switch status</button>
+	<script>
+		var blynkIP='http://blynk-cloud.com/';
+		var authToken="2e84bb3784c649b2b92433331dc50343";
+		setInterval(funGetArduinoEcho, 1000);
+		setInterval(funGetArduinoSwitchStatus, 1000);
+		function funGetArduinoEcho() {
+			//https://blynkapi.docs.apiary.io/#reference/0/write-pin-value-via-get/write-pin-value-via-get
+		    var request = new XMLHttpRequest();
+		    var blynkCmd=blynkIP+authToken+"/get/V0";
+		    request.open('GET', blynkCmd);
+			request.onreadystatechange = function () {
+			  if (this.readyState === 4) {
+			    console.log('Status:', this.status);
+			    console.log('Headers:', this.getAllResponseHeaders());
+			    console.log('Body:', this.responseText);
+			    if (this.status==200){
+			    	document.getElementById('arduinoEcho').innerHTML=this.responseText;
+			    	}
+			  }
+			};
+		request.send();
+		}
+		function funGetArduinoSwitchStatus() {
+			//https://blynkapi.docs.apiary.io/#reference/0/write-pin-value-via-get/write-pin-value-via-get
+		    var request = new XMLHttpRequest();
+		    var blynkCmd=blynkIP+authToken+"/get/V1";
+		    request.open('GET', blynkCmd);
+			request.onreadystatechange = function () {
+			  if (this.readyState === 4) {
+			    console.log('Status:', this.status);
+			    console.log('Headers:', this.getAllResponseHeaders());
+			    console.log('Body:', this.responseText);
+			    if (this.status==200){
+			    	document.getElementById('arduinoSwitchStatus').innerHTML=this.responseText;
+					}
+			  }
+			};
+		request.send();
+		}
+		function funOpenDoor() {
+			//https://blynkapi.docs.apiary.io/#reference/0/write-pin-value-via-get/write-pin-value-via-get
+		    var request = new XMLHttpRequest();
+		    var blynkCmd=blynkIP+authToken+"/update/V5?value=1";
+		    request.open('GET', blynkCmd);
+			request.onreadystatechange = function () {
+			  if (this.readyState === 4) {
+			    console.log('Status:', this.status);
+			    console.log('Headers:', this.getAllResponseHeaders());
+			    console.log('Body:', this.responseText);
+			  }
+			};
+		request.send();
+		}
+		function funStopDoor() {
+			//https://blynkapi.docs.apiary.io/#reference/0/write-pin-value-via-get/write-pin-value-via-get
+		    var request = new XMLHttpRequest();
+		    var blynkCmd=blynkIP+authToken+"/update/V5?value=0";
+		    request.open('GET', blynkCmd);
+			request.onreadystatechange = function () {
+			  if (this.readyState === 4) {
+			    console.log('Status:', this.status);
+			    console.log('Headers:', this.getAllResponseHeaders());
+			    console.log('Body:', this.responseText);
+			  }
+			};
+		request.send();
+		}
+		function funCloseDoor() {
+			//https://blynkapi.docs.apiary.io/#reference/0/write-pin-value-via-get/write-pin-value-via-get
+		    var request = new XMLHttpRequest();
+		    var blynkCmd=blynkIP+authToken+"/update/V5?value=2";
+		    request.open('GET', blynkCmd);
+			request.onreadystatechange = function () {
+			  if (this.readyState === 4) {
+			    console.log('Status:', this.status);
+			    console.log('Headers:', this.getAllResponseHeaders());
+			    console.log('Body:', this.responseText);
+			  }
+			};
+		request.send();
+		}
+	</script>
+</body>
+</html>
